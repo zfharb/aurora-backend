@@ -1,0 +1,72 @@
+service: aurora-backend
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  environment:
+    JWT_SECRET: aurorauUersSecret
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*   
+      Resource: '*'
+
+
+functions:
+  verify:
+    handler: lambdas/verifyHandler.handler
+    events:
+      - http:
+          path: /verify
+          method: get
+          cors: true # <-- CORS!
+  login:
+    handler: lambdas/loginHandler.handler
+    events:
+      - http:
+          path: /login
+          method: post
+          cors: true # <-- CORS!
+  register:
+    handler: lambdas/registerHandler.handler
+    events:
+      - http:
+          path: /register
+          method: post
+          cors: true # <-- CORS!
+
+
+# package:
+#   include:
+#     - utils/
+#   exclude:
+#     - node_modules/
+
+plugins:
+  - serverless-plugin-common-excludes # this should go before serverless-plugin-include-dependencies
+  - serverless-plugin-include-dependencies
+  # - serverless-webpack
+
+package:
+  individually: true
+
+
+resources:
+  Resources:
+    auroraUsers:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: aurora-users 
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: username
+            AttributeType: S
+        KeySchema:
+          - AttributeName: username
+            KeyType: HASH
+         
+        
+
+
+    
