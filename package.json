@@ -8,20 +8,16 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    
+    "@aws-sdk/client-s3": "^3.501.0",
     "aws-sdk": "^2.1535.0",
     "bcryptjs": "^2.4.3",
+    "file-type": "^19.0.0",
     "jsonwebtoken": "^9.0.2",
-    "punycode": "^2.3.1",
+    "parse-multipart": "^1.0.4",
     "serverless": "^3.38.0",
-    "serverless-webpack": "^5.13.0",
-    "uuid": "^9.0.1",
-    "webpack": "^5.89.0"
+    "serverless-iam-roles-per-function": "^3.2.0",
+    "uuid": "^9.0.1"
   },
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "serverless-plugin-common-excludes": "^4.0.0",
-    "serverless-plugin-include-dependencies": "^5.1.0"
-  }
+  "license": "ISC"
 }
