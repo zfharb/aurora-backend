@@ -7,18 +7,19 @@ AWS.config.update({
 })
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
-const userTable = 'aurora-users';
+const userTable = 'madinax-users';
 
 export default async function register(userInfo) {
+    console.log("userInfo is :")
     console.log(userInfo)
+
     const name = userInfo.name;
     const email = userInfo.email
     const username = userInfo.username
     const password = userInfo.password
-    // let x = userInfo.body.replaceAll("\n","").replace("\\", "")
     if (!username || !email || !name || !password) {
         return buildResponse(401, {
-            message: `${userInfo.body}required field are missing`
+            message: `${userInfo.body} required field are missing`
         })
     }
 
@@ -40,6 +41,9 @@ export default async function register(userInfo) {
 
 
     const saveUserResponse = await saveUser(user);
+    console.log('saveUserResponse is :')
+    console.log(saveUserResponse)
+
     if(!saveUserResponse) {
         return buildResponse(503, {message: 'server error'})
     }
@@ -47,7 +51,6 @@ export default async function register(userInfo) {
     return buildResponse(200, {username: username})
 
 }
-
 async function getUser(username) {
     const params = {
         TableName: userTable,

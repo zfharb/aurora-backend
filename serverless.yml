@@ -5,9 +5,9 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: us-east-1
-  apiGateway:
-        binaryMediaTypes:
-            - '*/*'
+  # apiGateway:
+  #       binaryMediaTypes:
+  #           - '*/*'
   environment:
     JWT_SECRET: madinaxSecret
     pictureBucket: ${self:custom.myMadinaBucket}
@@ -59,6 +59,8 @@ functions:
       - http:
           path: /upload 
           method: post
+          cors: true # <-- CORS!
+
     # environment:
     #   MY_BUCKET: ${self:custom.myMadinaBucket}
      

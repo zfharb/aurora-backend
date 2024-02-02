@@ -8,11 +8,19 @@ AWS.config.update({
 })
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
-const userTable = 'aurora-users';
+const userTable = 'madinax-users';
 
 export default async function login(user) {
+    
+    console.log("userInfo is :")
+    console.log(user)
+    console.log(user.username)
+    console.log(user.password)
+
+
     const username = user.username;
     const password = user.password;
+
     if(!user || !username || !password) {
         return buildResponse(401, {
             message: 'username and passward are required'
@@ -20,6 +28,8 @@ export default async function login(user) {
     }
 
     const dynamoUser = await getUser(username);
+    console.log('getUserResponse is :')
+    console.log(dynamoUser)
     if (!dynamoUser && !dynamoUser.username) {
         return buildResponse(401, {
             message: 'user does not exist'
@@ -47,14 +57,14 @@ export default async function login(user) {
 async function getUser(username) {
     const params = {
         TableName: userTable,
-        key: {
-            username: username
-        }
+        Key: {
+            username : username
+            } 
+        
     }
     return await dynamodb.get(params).promise().then(response => {
         return response.Item;
-
     }, error => {
-        console.log('there is an error:' , error)
+        console.log('there is an error getting user:' , error)
     })
 }
